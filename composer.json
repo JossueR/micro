@@ -1,0 +1,25 @@
+{
+    "name": "jossuer/micro",
+    "description": "Framework básico para crear APIS en php",
+    "type": "project",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "jossue",
+            "email": "jossue.rodriguez@gmail.com"
+        }
+    ],
+    "minimum-stability": "dev",
+    "autoload": {
+        "psr-4": {
+            "Micro\\": "src/Micro",
+            "myapp\\": "private/controllers"
+        }
+    },
+    "require": {
+        "ext-json": "*",
+        "ext-mysqli": "*",
+        "ext-simplexml": "*",
+        "ext-curl": "*"
+    }
+}
