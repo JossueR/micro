@@ -8,8 +8,7 @@ use Exception;
 
 class Controller extends Component
 {
-    private static $actionSufix = "Action";
-    private static $handlerSufix = "Handler";
+
     private static $request_json;
     private static $mode_raw_request = false;
 
@@ -146,7 +145,7 @@ class Controller extends Component
 
 
 
-        $className = "\\" . $namespace . "\\" . $partes_ruta["filename"] . self::$handlerSufix;
+        $className = "\\" . $namespace . "\\" . $partes_ruta["filename"] . Config::$APP_DEFAULT_CONTROLLER_SUFFIX;
 
         if ($className != "Handler" ) {
             self::$handler = $partes_ruta["filename"];
@@ -156,13 +155,13 @@ class Controller extends Component
 
                     $mi_clase = new $className();
 
-                    if (method_exists($mi_clase, self::$do . self::$actionSufix)) {
-                        $method = self::$do . self::$actionSufix;
+                    if (method_exists($mi_clase, self::$do . Config::$APP_DEFAULT_CONTROLLER_METHOD_SUFFIX)) {
+                        $method = self::$do . Config::$APP_DEFAULT_CONTROLLER_METHOD_SUFFIX;
 
                         $mi_clase->$method();
                         $status = true;
                     } else {
-                        $method = "index" . self::$actionSufix;
+                        $method = "index" . Config::$APP_DEFAULT_CONTROLLER_METHOD_SUFFIX;
 
                         if (method_exists($mi_clase, $method)) {
                             $mi_clase->$method();

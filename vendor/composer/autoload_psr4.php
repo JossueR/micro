@@ -6,6 +6,5 @@ $vendorDir = dirname(dirname(__FILE__));
 $baseDir = dirname($vendorDir);
 
 return array(
-    'myapp\\' => array($baseDir . '/private/controllers'),
     'Micro\\' => array($baseDir . '/src/Micro'),
 );

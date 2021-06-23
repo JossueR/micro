@@ -1,7 +1,7 @@
 {
     "name": "jossuer/micro",
     "description": "Framework básico para crear APIS en php",
-    "type": "project",
+    "type": "library",
     "license": "MIT",
     "authors": [
         {
@@ -17,7 +17,6 @@
     },
     "require": {
         "ext-json": "*",
-        "ext-mysqli": "*",
         "ext-simplexml": "*",
         "ext-curl": "*"
     }
