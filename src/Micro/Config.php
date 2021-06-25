@@ -18,6 +18,18 @@ class Config
 
     private static $raw_config;
 
+    public static $KEY_STATUS = "status";
+    public static $KEY_STATUS_CODE = "status_code";
+    public static $KEY_ACCESS_TOKEN = "token";
+    public static $KEY_ACCESS_USERNAME = "username";
+    public static $KEY_ACCESS_PASSWORD = "password";
+    public static $KEY_ERRORS = "errors";
+
+    public static $API_DEFAULT_VALUE_SUCCESS= "success";
+    public static $API_DEFAULT_VALUE_ERROR= "server_error";
+
+    public static $API_DEFAULT_SUCCESS_CODE= "100";
+
     public static function loadConfigFile($path_to_json_file){
         $raw_file = file_get_contents($path_to_json_file);
         if($raw_file) {

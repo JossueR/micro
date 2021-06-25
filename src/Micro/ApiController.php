@@ -6,10 +6,7 @@ namespace Micro;
 
 class ApiController extends Controller
 {
-    const KEY_STATUS = "status";
-    const KEY_STATUS_CODE = "status_code";
-    const KEY_ACCESS_TOKEN = "token";
-    const KEY_ERRORS = "errors";
+
 
     private $status_added;
 
@@ -38,24 +35,24 @@ class ApiController extends Controller
     }
 
     protected function setStatus($status, $code){
-        $this->setVar(self::KEY_STATUS, $status);
-        $this->setVar(self::KEY_STATUS_CODE, $code);
+        $this->setVar(Config::$KEY_STATUS, $status);
+        $this->setVar(Config::$KEY_STATUS_CODE, $code);
 
 
         $this->status_added = true;
     }
 
     protected function success(){
-        $this->setVar(self::KEY_STATUS, 'success');
-        $this->setVar(self::KEY_STATUS_CODE, '100');
+        $this->setVar(Config::$KEY_STATUS, Config::$API_DEFAULT_VALUE_SUCCESS);
+        $this->setVar(Config::$KEY_STATUS_CODE, Config::$API_DEFAULT_SUCCESS_CODE);
         $this->status_added = true;
     }
 
     protected function serverError($errorCode = '500'){
-        $this->setVar(self::KEY_STATUS, 'server_error');
-        $this->setVar(self::KEY_STATUS_CODE, $errorCode);
+        $this->setVar(Config::$KEY_STATUS, Config::$API_DEFAULT_VALUE_SUCCESS);
+        $this->setVar(Config::$KEY_STATUS_CODE, $errorCode);
 
-        $this->setVar(self::KEY_ERRORS,  $this->errors);
+        $this->setVar(Config::$KEY_ERRORS,  $this->errors);
         $this->status_added = true;
     }
 

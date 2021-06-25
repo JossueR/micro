@@ -25,7 +25,7 @@ abstract class SecureApiController extends ApiController
     /**
      * @return string
      */
-    public function getAccessToken()
+    public function getAccessToken(): string
     {
         return $this->access_token;
     }
@@ -34,7 +34,7 @@ abstract class SecureApiController extends ApiController
     /**
      * @return string
      */
-    public function getUsername()
+    public function getUsername(): string
     {
         return $this->username;
     }
@@ -46,14 +46,14 @@ abstract class SecureApiController extends ApiController
      * @param $token
      * @return boolean
      */
-    protected abstract function validateToken($user, $token);
+    protected abstract function validateToken($user, $token): bool;
 
     protected abstract function loadSession();
 
     private function getAccess()
     {
-        $uname = $this->getRequestAttr("user");
-        $token = $this->getRequestAttr(self::KEY_ACCESS_TOKEN);
+        $uname = $this->getRequestAttr(Config::$KEY_ACCESS_USERNAME);
+        $token = $this->getRequestAttr(Config::$KEY_ACCESS_TOKEN);
 
         if($this->validateToken($uname,$token)){
             $this->access_token = $token;
