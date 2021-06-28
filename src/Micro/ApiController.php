@@ -26,6 +26,12 @@ class ApiController extends Controller
     }
 
     protected function addStatus(){
+        if(ErrorTracker::getInstance()->haveErrors()){
+            foreach (ErrorTracker::getInstance()->getAllErrors() as $error){
+                $this->addError($error);
+            }
+        }
+
         //si hay errores
         if($this->haveErrors()){
             $this->serverError();
@@ -49,7 +55,7 @@ class ApiController extends Controller
     }
 
     protected function serverError($errorCode = '500'){
-        $this->setVar(Config::$KEY_STATUS, Config::$API_DEFAULT_VALUE_SUCCESS);
+        $this->setVar(Config::$KEY_STATUS, Config::$API_DEFAULT_VALUE_ERROR);
         $this->setVar(Config::$KEY_STATUS_CODE, $errorCode);
 
         $this->setVar(Config::$KEY_ERRORS,  $this->errors);
