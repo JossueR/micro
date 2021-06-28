@@ -13,10 +13,10 @@ class Controller extends Component
     private static $mode_raw_request = false;
 
     //Almacena la accion que sera ejecutada
-    public static $do;
+    private static $do;
 
     //almacena el nombre del script Actual
-    public static $handler;
+    private static $handler;
 
     /**
      *
@@ -25,7 +25,7 @@ class Controller extends Component
      * @param $post boolean true por defecto, false si se quiere buscar en GET
      * @return array|string|null
      */
-    public static function getRequestAttr($attr, $post = true)
+    public static function getRequestAttr(string $attr, bool $post = true)
     {
 
         //si no esta habilitado el modo Raw
@@ -65,7 +65,7 @@ class Controller extends Component
      * @param $val string
      * @param $post true por defecto, false si se quiere buscar en GET
      */
-    public static function setRequestAttr($attr, $val, $post = true)
+    public static function setRequestAttr(string $attr, $val, bool $post = true)
     {
         $attr = str_replace(".", "_", $attr);
 
@@ -100,12 +100,12 @@ class Controller extends Component
         self::$mode_raw_request = true;
     }
 
-    public static function isRawEnabled()
+    public static function isRawEnabled(): bool
     {
         return self::$mode_raw_request;
     }
 
-    public static function getAllRequestData($post = true)
+    public static function getAllRequestData($post = true): array
     {
 
 
@@ -122,13 +122,11 @@ class Controller extends Component
         return $data;
     }
 
-    public static function exec($namespace){
+    public static function exec($namespace): bool
+    {
 
         $status = false;
-        self::$do = self::getRequestAttr(Config::$APP_DEFAULT_ACTION_PARAM);
-        if(!self::$do){
-            self::$do = self::getRequestAttr(Config::$APP_DEFAULT_ACTION_PARAM,false);
-        }
+
 
         self::$handler = (isset($_SERVER['REQUEST_URI']))? $_SERVER['REQUEST_URI'] : $_SERVER['PHP_SELF'];
         self::$handler = explode("?", self::$handler);
@@ -154,6 +152,11 @@ class Controller extends Component
                 try {
 
                     $mi_clase = new $className();
+
+                    self::$do = self::getRequestAttr(Config::$APP_DEFAULT_ACTION_PARAM);
+                    if(!self::$do){
+                        self::$do = self::getRequestAttr(Config::$APP_DEFAULT_ACTION_PARAM,false);
+                    }
 
                     if (method_exists($mi_clase, self::$do . Config::$APP_DEFAULT_CONTROLLER_METHOD_SUFFIX)) {
                         $method = self::$do . Config::$APP_DEFAULT_CONTROLLER_METHOD_SUFFIX;
