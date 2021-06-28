@@ -15,7 +15,11 @@ class ApiController extends Controller
 
         $this->configErrorHandler();
 
-
+        $this->corsHeaders();
+        $method = $_SERVER['REQUEST_METHOD'];
+        if($method == "OPTIONS") {
+            die();
+        }
     }
 
     private function configErrorHandler(){
@@ -60,6 +64,15 @@ class ApiController extends Controller
 
         $this->setVar(Config::$KEY_ERRORS,  $this->errors);
         $this->status_added = true;
+    }
+
+    function corsHeaders(){
+        if (isset($_SERVER['HTTP_ORIGIN'])) {
+            header("Access-Control-Allow-Origin: {$_SERVER['HTTP_ORIGIN']}");
+            header("Access-Control-Allow-Headers: X-API-KEY, Origin, X-Requested-With, Content-Type, Accept, Access-Control-Request-Method");
+            header("Access-Control-Allow-Methods: GET, POST, OPTIONS, PUT, DELETE");
+            header("Allow: GET, POST, OPTIONS, PUT, DELETE");
+        }
     }
 
     function toJSON($send = true, $headers = true){
