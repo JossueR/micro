@@ -179,4 +179,46 @@ class Controller extends Component
 
         return $status;
     }
+
+    /**
+     * Llena un prototipo con los valores que vienen del post o get
+     * @param $prototype: arreglo con los datos a cargar
+     * @param $post: indica si buscara los valores en post o get
+     */
+    public function fillPrototype($prototype , $post=true){
+
+
+        foreach ($prototype as $key => $default_value) {
+            $prototype[$key] = $this->getRequestAttr($key, $post);
+
+            if(is_null($prototype[$key]) && $default_value != null){
+                $prototype[$key] = $default_value;
+            }
+        }
+
+
+        return $prototype;
+    }
+
+    /**
+     * Retorna un arreglo con los nombres de los campos del maper
+     * @param array $prototype es un arreglo con los nombre de los campos de un formulario
+     * @param array $map Arreglo que contiene la equivalencia de [Nombre_Campo_Original]=Nuevo_nombre
+     * @param bool $map_nulls si se establece a true, mapea incluso nulos
+     */
+    static public function mapPrototype($prototype, $map, $map_nulls = false){
+
+        $searchArray = array();
+        foreach ($map as $key => $value) {
+
+            if(isset($prototype[$key]) ||
+                ($map_nulls && array_key_exists($key, $prototype))
+            ){
+                $searchArray[$value] = $prototype[$key];
+            }
+        }
+
+
+        return $searchArray;
+    }
 }
