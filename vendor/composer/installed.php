@@ -6,7 +6,7 @@
     'aliases' => 
     array (
     ),
-    'reference' => '1fb40cfac8ee7f482318ea62f846781c009faa46',
+    'reference' => 'a03b9ede265f0a2dc036bb7b5d668bffb5c73214',
     'name' => 'jossuer/micro',
   ),
   'versions' => 
@@ -18,7 +18,7 @@
       'aliases' => 
       array (
       ),
-      'reference' => '1fb40cfac8ee7f482318ea62f846781c009faa46',
+      'reference' => 'a03b9ede265f0a2dc036bb7b5d668bffb5c73214',
     ),
   ),
 );

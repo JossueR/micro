@@ -191,7 +191,7 @@ class Controller extends Component
         foreach ($prototype as $key => $default_value) {
 
             //si encuentra un punto
-            if(strpos($key, ".") !== -1){
+            if(strpos($key, ".") !== false){
 
                 $fragments = explode(".", $key);
 
@@ -234,11 +234,42 @@ class Controller extends Component
                 ($map_nulls && array_key_exists($key, $prototype))
             ){
                 unset($searchArray[$key]);
-                $searchArray[$value] = $prototype[$key];
+
+                if(strpos($key, ".") !== false){
+                    $searchArray = self::buildArrayData($searchArray,$value, $prototype[$key]);
+                }else{
+                    $searchArray[$value] = $prototype[$key];
+                }
+
             }
         }
 
 
         return $searchArray;
+    }
+
+    private static function buildArrayData($repository, $key, $value){
+        if(strpos($key, ".") !== false){
+
+            $fragments = explode(".", $key);
+
+            $subKey = array_shift($fragments);
+
+            $key = implode(".", $fragments);
+
+            if(!isset($repository[$subKey])){
+                $repository[$subKey] = [];
+            }
+
+            $repository[$subKey] = self::buildArrayData($repository[$subKey],$key,$value);
+        }else{
+            $subKey = $key;
+            $key = null;
+
+            $repository[$subKey] = $value;
+        }
+
+        return  $repository;
+
     }
 }
