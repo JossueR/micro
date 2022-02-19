@@ -235,7 +235,7 @@ class Controller extends Component
             ){
                 unset($searchArray[$key]);
 
-                if(strpos($key, ".") !== false){
+                if(strpos($value, ".") !== false){
                     $searchArray = self::buildArrayData($searchArray,$value, $prototype[$key]);
                 }else{
                     $searchArray[$value] = $prototype[$key];
