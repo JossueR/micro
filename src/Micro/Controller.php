@@ -30,7 +30,7 @@ class Controller extends Component
 
         //si no esta habilitado el modo Raw
         if (!self::$mode_raw_request) {
-            $attr = str_replace(".", "_", $attr);
+            //$attr = str_replace(".", "_", $attr);
 
             if ($post) {
                 $var = $_POST;
@@ -67,7 +67,7 @@ class Controller extends Component
      */
     public static function setRequestAttr(string $attr, $val, bool $post = true)
     {
-        $attr = str_replace(".", "_", $attr);
+        //$attr = str_replace(".", "_", $attr);
 
         if (!is_array($val)) {
             $val = trim($val);
@@ -189,7 +189,26 @@ class Controller extends Component
 
 
         foreach ($prototype as $key => $default_value) {
-            $prototype[$key] = $this->getRequestAttr($key, $post);
+
+            //si encuentra un punto
+            if(strpos($key, ".") !== -1){
+
+                $fragments = explode(".", $key);
+
+                $temp_val = $this->getRequestAttr(array_shift($fragments), $post);
+                foreach ($fragments as $subkey){
+                    if(isset($temp_val[$subkey])){
+                        $temp_val = $temp_val[$subkey];
+                    }else{
+                        break;
+                    }
+                }
+                $prototype[$key] = $temp_val;
+            }else{
+                $prototype[$key] = $this->getRequestAttr($key, $post);
+            }
+
+
 
             if(is_null($prototype[$key]) && $default_value != null){
                 $prototype[$key] = $default_value;
@@ -208,12 +227,13 @@ class Controller extends Component
      */
     static public function mapPrototype($prototype, $map, $map_nulls = false){
 
-        $searchArray = array();
+        $searchArray = $prototype;
         foreach ($map as $key => $value) {
 
             if(isset($prototype[$key]) ||
                 ($map_nulls && array_key_exists($key, $prototype))
             ){
+                unset($searchArray[$key]);
                 $searchArray[$value] = $prototype[$key];
             }
         }
