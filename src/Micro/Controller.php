@@ -185,7 +185,7 @@ class Controller extends Component
      * @param $prototype: arreglo con los datos a cargar
      * @param $post: indica si buscara los valores en post o get
      */
-    public function fillPrototype($prototype , $post=true){
+    public function fillPrototype($prototype , $post=true, $map_nulls = false){
 
 
         foreach ($prototype as $key => $default_value) {
@@ -210,8 +210,13 @@ class Controller extends Component
 
 
 
-            if(is_null($prototype[$key]) && $default_value != null){
-                $prototype[$key] = $default_value;
+            if(is_null($prototype[$key])){
+                if($default_value != null){
+                    $prototype[$key] = $default_value;
+                }else if(!$map_nulls){
+                    unset($prototype[$key]);
+                }
+
             }
         }
 
@@ -230,8 +235,9 @@ class Controller extends Component
         $searchArray = $prototype;
         foreach ($map as $key => $value) {
 
-            if(isset($prototype[$key]) ||
-                ($map_nulls && array_key_exists($key, $prototype))
+            if( (isset($prototype[$key]) && $prototype[$key] != null)
+                ||
+                $map_nulls
             ){
                 unset($searchArray[$key]);
 
