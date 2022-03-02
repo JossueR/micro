@@ -206,6 +206,9 @@ class Controller extends Component
                 $prototype[$key] = $temp_val;
             }else{
                 $prototype[$key] = $this->getRequestAttr($key, $post);
+                if($prototype[$key] === ""){
+                    $prototype[$key] = $default_value;
+                }
             }
 
 
