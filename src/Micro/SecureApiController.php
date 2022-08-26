@@ -15,10 +15,10 @@ abstract class SecureApiController extends ApiController
 
         //si hay errores
         if($this->haveErrors()){
-            //envia errores y termina
+            //envía errores y termina
             $this->toJSON();
         }else{
-            $this->loadSession();
+            $this->onSuccessAccess();
         }
     }
 
@@ -48,9 +48,9 @@ abstract class SecureApiController extends ApiController
      */
     protected abstract function validateToken($user, $token): bool;
 
-    protected abstract function loadSession();
+    protected abstract function onSuccessAccess();
 
-    private function getAccess()
+    protected function getAccess()
     {
         $uname = $this->getRequestAttr(Config::$KEY_ACCESS_USERNAME);
         $token = $this->getRequestAttr(Config::$KEY_ACCESS_TOKEN);
@@ -59,10 +59,14 @@ abstract class SecureApiController extends ApiController
             $this->access_token = $token;
             $this->username = $uname;
 
-            $this->loadSession();
+            $this->onSuccessAccess();
         }else{
-            $this->addError("error_invalid_token");
-            $this->setStatus('access_denied', '400');
+            $this->onInvalidAccess();
         }
+    }
+
+    protected function onInvalidAccess(){
+        $this->addError("error_invalid_token");
+        $this->setStatus('access_denied', '400');
     }
 }
