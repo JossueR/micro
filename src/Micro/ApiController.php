@@ -23,7 +23,7 @@ class ApiController extends Controller
     }
 
     private function configErrorHandler(){
-        set_error_handler(function($errno, $errstr, $errfile, $errline, $errcontext) {
+        set_error_handler(function($errno, $errstr, $errfile, $errline, $errcontext = null) {
             ErrorTracker::getInstance()->addError("$errno, $errstr, $errfile, $errline");
 
         });
