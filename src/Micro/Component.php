@@ -58,6 +58,12 @@ class Component
 
     public static function trim_r($arr)
     {
-        return is_array($arr) ? array_map('self::trim_r', $arr) : trim($arr);
+        if(is_array($arr)){
+            return array_map('self::trim_r', $arr);
+        }else if(is_bool($arr) ){
+            return $arr;
+        }else{
+            return trim($arr);
+        }
     }
 }
