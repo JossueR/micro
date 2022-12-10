@@ -78,7 +78,7 @@ class ApiController extends Controller
     function toJSON($send = true, $headers = true){
 
 
-        if($send && $headers){
+        if($headers){
             header('Cache-Control: no-cache, must-revalidate');
             header('Content-type: application/json');
         }
