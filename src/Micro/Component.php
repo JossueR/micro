@@ -63,7 +63,12 @@ class Component
         }else if(is_bool($arr) ){
             return $arr;
         }else{
-            return trim($arr);
+            if(is_string($arr)){
+                return trim($arr);
+            }else{
+                return $arr;
+            }
+
         }
     }
 }
